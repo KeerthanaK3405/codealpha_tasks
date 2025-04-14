@@ -1,23 +1,53 @@
-function appendToDisplay(value) {
-    const display = document.getElementById('display');
-    display.value += value;
+// Image data
+const images = [
+    "images/image1.jpg",
+    "images/image2.jpg",
+    "images/image3.jpg",
+    "images/image4.jpg",
+    "images/image5.jpg",
+];
+];
+];
+
+// DOM Elements
+const mainImg = document.getElementById('main-img');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const thumbnails = document.querySelectorAll('.thumbnail');
+
+let currentIndex = 0;
+
+// Update main image and active thumbnail
+function updateGallery(index) {
+    // Update main image
+    mainImg.src = images[index];
+
+    // Update active thumbnail
+    thumbnails.forEach((thumb, i) => {
+        if (i === index) {
+            thumb.classList.add('active');
+        } else {
+            thumb.classList.remove('active');
+        }
+    });
 }
 
-function clearDisplay() {
-    const display = document.getElementById('display');
-    display.value = '';
-}
+// Next button click
+nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateGallery(currentIndex);
+});
 
-function deleteLast() {
-    const display = document.getElementById('display');
-    display.value = display.value.slice(0, -1);
-}
+// Previous button click
+prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateGallery(currentIndex);
+});
 
-function calculate() {
-    const display = document.getElementById('display');
-    try {
-        display.value = eval(display.value);
-    } catch (error) {
-        display.value = 'Error';
-    }
-}
+// Thumbnail click
+thumbnails.forEach((thumb, index) => {
+    thumb.addEventListener('click', () => {
+        currentIndex = index;
+        updateGallery(currentIndex);
+    });
+});
